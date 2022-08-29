@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_employee_view_search_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.view.search.planning</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='activities_upcoming_all']" position="after">
+            <filter name="employees_my_department" string="Employés de mon département" domain="[('department_id.member_ids.user_id', '=', uid)]"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="hr_open_view_employee_list_my" model="ir.actions.act_window">
+            <field name="name">Employees</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">kanban,tree,form,activity</field>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_employees_my_department': 1}</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="hr.view_employee_filter"/>
+            <field name="help" type="html">
+             <p class="o_view_nocontent_smiling_face">
+               Add a new employee
+             </p><p>
+               With just a quick glance on the Odoo employee screen, you
+               can easily find all the information you need for each person;
+               contact data, job position, availability, etc.
+             </p>
+            </field>
+        </record>
+
+
+    <menuitem
+            id="hr_menu_root"
+            name="Employés"
+            groups="hr.group_hr_manager,hr.group_hr_user,base.group_user"
+            web_icon="hr,static/description/icon.png"
+            sequence="75"/>
+
+    <menuitem
+                id="hr_menu_employee_user"
+                name="Employees"
+                action="hr_open_view_employee_list_my"
+                parent="hr_menu_root"
+                sequence="1"
+                groups="hr.group_hr_manager"/>
+
+    <menuitem
+                id="hr_menu_department_tree"
+                action="hr.open_module_tree_department"
+                parent="hr_menu_root"
+                sequence="10"
+                groups="hr.group_hr_manager"/>
+
+
+
+
+
+    <record id="hr_employee_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.planning</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <div name="button_box" position="inside">
+
+                <button name="%(planning_action_all_planning_calendar)d"
+                        type="action"
+                        class="oe_stat_button"
+                        icon="fa-calendar"
+                        context="{'search_default_employee_id': active_id,'default_employee_id': active_id}"
+                        groups="base.group_user"
+                        string="Planning">
+                </button>
+            </div>
+           <field name="address_id" position="replace">
+                <field name="operating_unit_id"/>
+                <field name="unit_ids" widget="many2many_tags"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="hr_employee_view_tree_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.view.tree.planning</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+           <field name="department_id" position="before">
+                <field name="operating_unit_id"/>
+            </field>
+        </field>
+    </record>
+
+    <menuitem
+                id="menu_config_aeroport"
+                name="Activity Planning"
+                parent="hr.menu_human_resources_configuration"
+
+                sequence="10"/>
+
+    <record id="hr_department_inherit2" model="ir.ui.view">
+        <field name="name">hr.department</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_form"/>
+        <field name="arch" type="xml">
+            <field name="parent_id" position="after">
+                <field name="address_mail" widget="email"/>
+            </field>
+
+        </field>
+    </record>
+
+</odoo>

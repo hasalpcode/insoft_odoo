@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <record id="view_planning_confirmation" model="ir.ui.view">
+        <field name="name">planning.confirmation.view.form</field>
+        <field name="model">planning.confirmation</field>
+        <field name="arch" type="xml">
+            <form string="Confirmer">
+                <group>
+                    <p>
+                        Vous avez dépassé la limite du nombre d'heures autorisé pour cet agent dans cette semaine
+                    </p>
+                </group>
+                <footer>
+                    <button string="Confirmer" special="save" class="btn btn-primary" close="1" groups="planning.group_planning_manager"/>
+                    <button string="Cancel" class="btn-secondary" name="action_cancel" type="object" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="planning_send_view_form" model="ir.ui.view">
+        <field name="name">planning.send.form</field>
+        <field name="model">planning.send</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="start_datetime" readonly="1"/>
+                            <field name="end_datetime" readonly="1"/>
+                        </group>
+                        <group>
+                            <!--<field name="include_unassigned"/>-->
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note" nolabel="1" placeholder="Additional message"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_send" type="object" string="Publish &amp; Send" class='btn-primary'/>
+                   <!-- <button name="action_publish" type="object" string="Publish" class='btn-primary'/>-->
+                    <button name="discard" string="Discard" class='btn-secondary' special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="planning_send_action" model="ir.actions.act_window">
+        <field name="name">Envoyer les planning de la semaine</field>
+        <field name="res_model">planning.send</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+        <record id="planning_preview_send_wizard_form" model="ir.ui.view">
+            <field name="name">planning.preview.send.form</field>
+            <field name="model">planning.preview.send</field>
+            <field name="groups_id" eval="[(4,ref('base.group_user'))]"/>
+            <field name="arch" type="xml">
+                <form string="Planning send &amp; Print">
+                    <field name="composition_mode" invisible="1"/>
+                    <field name="email_from" invisible="1"/>
+                    <field name="mail_server_id" invisible="1"/>
+
+                    <div name="option_email">
+                        <field name="is_email" invisible="1"/>
+                        <b><label for="is_email" invisible="1"/></b>
+                    </div>
+
+                    <div name="mail_form">
+                        <!-- visible wizard -->
+                        <div>
+                            <group>
+                                <label for="partner_ids" string="Recipients" groups="base.group_user"/>
+                                <div groups="base.group_user">
+
+                                    <field name="partner_ids" widget="many2many_tags_email" placeholder="Ajouter le(s) destinatire(s)"
+                                        context="{'force_email':True, 'show_email':True}" attrs="{'invisible': [('composition_mode', '=', 'mass_mail')]}" required="1" string="Destinataires"/>
+                                </div>
+                                <field name="subject" placeholder="Subject..." attrs="{'required': [('is_email', '=', True), ('composition_mode', '=', 'comment')]}"/>
+                            </group>
+                            <field name="body" style="border:none;" options="{'style-inline': true}"/>
+                        </div>
+                        <group>
+                            <group attrs="{'invisible': [('composition_mode', '=', 'mass_mail')]}">
+                                <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2" attrs="{'invisible': [('composition_mode', '=', 'mass_mail')]}"/>
+                            </group>
+                            <group>
+                                <field name="template_id" options="{'no_create': True, 'no_edit': True}"
+                                    context="{'default_model': 'planning.preview'}"/>
+                            </group>
+                        </group>
+                    </div>
+
+                    <footer>
+                        <button string="Confirmer" name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>
+                        <button string="Annuler" class="btn-secondary" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+       <act_window
+            name="Envoyer"
+            id="planning_send"
+            res_model="planning.preview.send"
+            binding_model="planning.preview"
+            binding_views="list"
+            view_mode="form"
+            target="new"
+            context="{
+                'default_template_id': ref('planning.email_template_edi_planning'),
+                'mark_invoice_as_sent': True,
+            }"
+           />
+
+
+
+    <record id="planning_sup_hours_send_wizard_form" model="ir.ui.view">
+            <field name="name">planning.suphours.send.form</field>
+            <field name="model">planning.suphours.send</field>
+            <field name="groups_id" eval="[(4,ref('base.group_user'))]"/>
+            <field name="arch" type="xml">
+                <form string="Planning send &amp; Print">
+                    <field name="composition_mode" invisible="1"/>
+                    <field name="email_from" invisible="1"/>
+                    <field name="mail_server_id" invisible="1"/>
+
+                    <div name="option_email">
+                        <field name="is_email" invisible="1"/>
+                        <b><label for="is_email" invisible="1"/></b>
+                    </div>
+
+                    <div name="mail_form">
+                        <!-- visible wizard -->
+                        <div>
+                            <group>
+                                <label for="partner_ids" string="Recipients" groups="base.group_user"/>
+                                <div groups="base.group_user">
+
+                                    <field name="partner_ids" widget="many2many_tags_email" placeholder="Ajouter le(s) destinatire(s)"
+                                        context="{'force_email':True, 'show_email':True}" attrs="{'invisible': [('composition_mode', '=', 'mass_mail')]}" required="1" string="Destinataires"/>
+                                </div>
+                                <field name="subject" placeholder="Subject..." attrs="{'required': [('is_email', '=', True), ('composition_mode', '=', 'comment')]}"/>
+                            </group>
+                            <field name="body" style="border:none;" options="{'style-inline': true}"/>
+                        </div>
+                        <group>
+                            <group attrs="{'invisible': [('composition_mode', '=', 'mass_mail')]}">
+                                <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2" attrs="{'invisible': [('composition_mode', '=', 'mass_mail')]}"/>
+                            </group>
+                            <group>
+                                <field name="template_id" options="{'no_create': True, 'no_edit': True}"
+                                    context="{'default_model': 'planning.preview'}"/>
+                            </group>
+                        </group>
+                    </div>
+
+                    <footer>
+                        <button string="Confirmer" name="send_and_print_action" type="object" class="send_and_print btn-primary o_mail_send"/>
+                        <button string="Annuler" class="btn-secondary" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+       <act_window
+            name="Envoyer"
+            id="planning_sup_hours_send"
+            res_model="planning.suphours.send"
+            binding_model="planning.sup.hours"
+            binding_views="list"
+            view_mode="form"
+            target="new"
+            context="{
+                'default_template_id': ref('planning.email_template_edi_sup_hours'),
+                'mark_invoice_as_sent': True,
+            }"
+           />
+
+
+
+
+</odoo>

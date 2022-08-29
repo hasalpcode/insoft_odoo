@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--<record id="res_company_service_view_form_inherit" model="ir.ui.view">
+        <field name="name">res.company.form.planning</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+    <field name="arch" type="xml">
+        <notebook>
+            <page string="Services">
+                <group string="Lignes de services">
+                        <field name="service_ids" widget="section_and_note_one2many" nolabel="1">
+                            <form string='Ligne de services'>
+                                <header attrs="{'invisible': [('display_type', '!=', False)]}">
+                                    <button string="En cours" name="action_open" states="draft" type="object"
+                                            class="oe_highlight"/>
+                                    <button string="Clôturer" name="action_done" type="object" states="open"
+                                            class="oe_highlight"/>
+                                    <field name="state" widget="statusbar" statusbar_visible="on,off"/>
+                                </header>
+                                <sheet>
+                                    <field name="sequence" invisible="1"/>
+                                    <field name="display_type" invisible="1"/>
+                                    <group string="Détails services"
+                                           attrs="{'invisible': [('display_type', '!=', False)]}">
+                                        <group>
+                                            <field name="service_id"/>
+                                            <field name="partner_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="date_start" widget="float_time"/>
+                                        </group>
+                                    </group>
+                                    <groupe string="Section"
+                                            attrs="{'invisible': [('display_type', '!=', 'line_section')]}">
+                                        <field name="name"/>
+                                    </groupe>
+                                </sheet>
+                            </form>
+                            <tree string="Lignes de services">
+                                <control>
+                                    <create string="Ajouter un service"/>
+                                    <create string="Ajouter une section"
+                                            context="{'default_display_type': 'line_section'}"/>
+                                </control>
+                                <field name="display_type" invisible="1"/>
+                                <field name="sequence" widget="handle"/>
+                                <field name="service_id"/>
+                                <field name="name" widget="section_and_note_text" optional="show"/>
+                                <field name="partner_id"/>
+                                <field name="date_start" widget="float_time"/>
+
+                            </tree>
+                        </field>
+                    </group>
+            </page>
+        </notebook>
+    </field>
+    </record>-->
+
+    <record id="operating_unit_view_form2_inherit" model="ir.ui.view">
+        <field name="name">operating.unit.from</field>
+        <field name="model">operating.unit</field>
+        <field name="inherit_id" ref="operating_unit.view_operating_unit_form"/>
+        <field name="arch" type="xml">
+            <!--<xpath expr="//group[@name='main_group']" position="after">
+                <notebook>
+                    <page string="Planning">
+                        <group>
+                            <field name="number_hour_max_in_week"/>
+                            <field name="number_hour_max_in_day"/>
+                            <field name="number_hour_max_in_month"/>
+                        </group>
+                    </page>
+                </notebook>
+             </xpath>-->
+
+            <notebook>
+            <page string="Services">
+                <group string="Lignes de services">
+                        <field name="service_ids" widget="section_and_note_one2many" nolabel="1">
+                            <form string='Ligne de services'>
+                                <header attrs="{'invisible': [('display_type', '!=', False)]}">
+                                    <button string="En cours" name="action_open" states="draft" type="object"
+                                            class="oe_highlight"/>
+                                    <button string="Clôturer" name="action_done" type="object" states="open"
+                                            class="oe_highlight"/>
+                                    <field name="state" widget="statusbar" statusbar_visible="on,off"/>
+                                </header>
+                                <sheet>
+                                    <field name="sequence" invisible="1"/>
+                                    <field name="display_type" invisible="1"/>
+                                    <group string="Détails services"
+                                           attrs="{'invisible': [('display_type', '!=', False)]}">
+                                        <group>
+                                            <field name="service_id"/>
+                                            <field name="partner_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="date_start" widget="float_time"/>
+                                        </group>
+                                    </group>
+                                    <groupe string="Section"
+                                            attrs="{'invisible': [('display_type', '!=', 'line_section')]}">
+                                        <field name="name"/>
+                                    </groupe>
+                                </sheet>
+                            </form>
+                            <tree string="Lignes de services">
+                                <control>
+                                    <create string="Ajouter un service"/>
+                                    <create string="Ajouter une section"
+                                            context="{'default_display_type': 'line_section'}"/>
+                                </control>
+                                <field name="display_type" invisible="1"/>
+                                <field name="sequence" widget="handle"/>
+                                <field name="service_id"/>
+                                <field name="name" widget="section_and_note_text" optional="show"/>
+                                <field name="partner_id"/>
+                                <field name="date_start" widget="float_time"/>
+
+                            </tree>
+                        </field>
+                    </group>
+            </page>
+        </notebook>
+
+        </field>
+    </record>
+
+</odoo>

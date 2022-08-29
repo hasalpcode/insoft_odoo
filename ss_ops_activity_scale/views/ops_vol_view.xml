@@ -1,0 +1,182 @@
+<odoo>
+    <data>
+        <record id="view_ss_board_vol_form" model="ir.ui.view">
+            <field name="name">ss.board.vol.form</field>
+            <field name="model">ops.vol</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                            <!--<button name="action_open_wizard_touche" string="Exécuter touchée" type="object" class="oe_highlight"/>-->
+                        </header>
+                    <sheet>
+
+                        <div class="oe_button_box" name="button_box" position="inside">
+                            <!--<button class="oe_stat_button" type="action"  icon="fa-file" name="%(ops_touchee)d"
+                                    string="Imprimer Touchée">
+                            </button>-->
+
+                            <button class="oe_stat_button"
+                                    type="action"  icon="fa-file"
+                                    name="%(action_ops_bon_by_vol)d"
+                                    string="Bons"
+                                    groups="ss_ops_base.group_bon_createuser,ss_ops_base.group_approver_bon,ss_ops_base.group_sup_airsn">
+                                <field name="number_bon" widget="stat_info"/>
+                            </button>
+
+                            <!--<button class="oe_stat_button" type="action"  icon="fa-pencil-square-o" name="%(action_ss_ops_service_prestation)d"
+                                    string="Checklists">
+                                <field name="number_checklist" widget="stat_info"/>
+                            </button>-->
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" required="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="aeroport_depart" required="1"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="aeroport_arrive" required="1"/>
+                                <field name="date_start_preview"/>
+                                <field name="date_vol"/>
+                                <field name="destination"/>
+                                <!--<field name="city_start" required="1"/>
+                                <field name="city_stop" required="1"/>-->
+                                <field name="module_id" required="1"/>
+                                <field name="is_late_start"/>
+                            </group>
+                            <group>
+                                <field name="user_id"/>
+                                <field name="plane_id" required="1"/>
+                                <field name="type_reseau_id"/>
+                                <field name="plane_model_id" required="1"/>
+                                <field name="number_passgers"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Passagers">
+                                <field name="passager_ids" nolabel="1">
+                                    <tree>
+                                        <field name="firstname"/>
+                                        <field name="name"/>
+                                        <field name="pax_seat"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <!--<page string="Touchée">
+                        <group string="Lignes de services">
+                                <field name="checklist_ids" widget="section_and_note_one2many" nolabel="1">
+                                    <form string='Ligne de services'>
+                                        <sheet>
+                                            <field name="sequence" invisible="1"/>
+                                            <field name="display_type" invisible="1"/>
+                                            <group string="Détails services"
+                                                   attrs="{'invisible': [('display_type', '!=', False)]}">
+                                                <group>
+                                                    <field name="service_id"/>
+                                                    <field name="partner_id"/>
+                                                    <field name="date_start" widget="float_time"/>
+                                                    <field name="comment"/>
+                                                </group>
+                                                <group>
+                                                    <field name="date_start_preview"/>
+                                                    <field name="date_stop_preview"/>
+                                                    <field name="date_start_real"/>
+                                                    <field name="date_stop_real"/>
+                                                </group>
+                                            </group>
+                                            <groupe string="Section"
+                                                    attrs="{'invisible': [('display_type', '!=', 'line_section')]}">
+                                                <field name="name"/>
+                                            </groupe>
+                                        </sheet>
+                                    </form>
+                                    <tree string="Lignes de services">
+                                        <control>
+                                            <create string="Ajouter un service"/>
+                                            <create string="Ajouter une section"
+                                                    context="{'default_display_type': 'line_section'}"/>
+                                        </control>
+                                        <field name="display_type" invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="service_id"/>
+                                        <field name="name" widget="section_and_note_text"/>
+                                        <field name="partner_id"/>
+                                        <field name="date_start" widget="float_time"/>
+                                        <field name="date_start_preview"/>
+                                        <field name="date_stop_preview"/>
+                                        <field name="date_start_real"/>
+                                        <field name="date_stop_real"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            </page>-->
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="ops_ss_board_vol_list">
+            <field name="name">Vol List</field>
+            <field name="model">ops.vol</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="aeroport_depart"/>
+                    <field name="aeroport_arrive" required="1"/>
+                    <field name="date_start_preview"/>
+                    <field name="date_vol"/>
+                    <field name="number_passgers"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="ops_ss_board_vol_search">
+            <field name="name">ss.board.vol.search</field>
+            <field name="model">ops.vol</field>
+            <field name="arch" type="xml">
+                <search string="Vols">
+                    <field name="name"/>
+                    <field name="plane_id"/>
+                    <field name="company_id"/>
+                    <field name="aeroport_arrive"/>
+                    <field name="aeroport_depart"/>
+                    <group string="Group By">
+                        <filter name="group_by_avion" string="Avion"
+                                context="{'group_by': 'plane_id'}"/>
+                        <filter name="group_by_aeroport_depart" string="Aeroport départ"
+                                context="{'group_by': 'aeroport_depart'}"/>
+                        <filter name="group_by_aeroport_arrive" string="Aeroport arrivé"
+                                context="{'group_by': 'aeroport_arrive'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="ops_ss_board_vol">
+            <field name="name">Vol</field>
+            <field name="res_model">ops.vol</field>
+            <field name="view_mode">tree,form,pivot,search</field>
+        </record>
+
+
+        <menuitem
+                id="menu_ops_vols"
+                name="Vols"
+                parent="menu_service_prestataire_root"
+                sequence="1"
+                action="ops_ss_board_vol"
+        />
+    </data>
+</odoo>

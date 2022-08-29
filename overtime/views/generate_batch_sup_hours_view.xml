@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <record id="view_generate_batch_sup_hours" model="ir.ui.view">
+        <field name="name">generate.batch.view.form</field>
+        <field name="model">overtime.batch</field>
+        <field name="arch" type="xml">
+            <form string="Generate">
+                <group>
+                    <p>
+                        Generation de batch des heures sup
+                    </p>
+                </group>
+
+                <div class="oe_title">
+                        <label for="department"/>
+                        <h1>
+                            <!--field name="department" domain="[('department.member_ids.user_id', '=', uid)]"/-->
+                            <field name="department" />
+                        </h1>
+                    </div>
+                <group>
+                    <field name="year_id"/>
+                    <field name="type_period"/>
+                    <field name="period_id"/>
+                </group>
+                <group>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </group>
+                <footer>
+                    <button string="Generate" name="generate_batch_overtime" class="btn btn-primary" close="1" groups="planning.group_planning_manager" type="object"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+     <record id="generate_batch_sup_hours_action" model="ir.actions.act_window">
+        <field name="name">generate.batch.sup.hours</field>
+        <field name="res_model">overtime.batch</field>
+        <field name="view_mode">form</field>
+        <field name="domain">[]</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+            id="overtimes_generation_menu"
+            name="Overtimes Generation"
+            action="generate_batch_sup_hours_action"
+            parent="details_overtimes_report_menu_main"/>
+
+</odoo>

@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_escale_plane,access_escale_plane,model_escale_plane,base.group_user,1,1,1,1
+access_ops_plane,access_ops_plane,model_ops_plane,base.group_user,1,1,1,1
+access_service_escale,access_service_escale,model_service_escale,base.group_user,1,1,1,1
+access_service_type,access_service_type,model_service_type,base.group_user,1,1,1,1
+access_activity_escale_service_line,access_activity_escale_service_line,model_activity_escale_service_line,base.group_user,1,1,1,1
+access_activity_escale_service,access_activity_escale_service,model_activity_escale_service,base.group_user,1,1,1,1
+access_service_partner_history,access_service_partner_history,model_service_partner_history,base.group_user,1,1,1,1
+access_ops_bon_state,access_ops_bon_state,model_ops_bon_state,base.group_user,1,1,1,1
+access_ops_bon,access_ops_bon,model_ops_bon,base.group_user,1,1,1,1
+access_ops_prisencharge_type,access_ops_prisencharge_type,model_ops_prisencharge_type,base.group_user,1,1,1,1
+access_service_scale,access_service_scale,model_service_scale,base.group_user,1,1,1,1
+access_ops_service_partner,access_ops_service_partner,model_ops_service_partner,base.group_user,1,1,1,1
+access_ops_bon_approver,access_ops_bon_approver,model_ops_bon_approver,base.group_user,1,1,1,1
+access_ops_bon_motif,access_ops_bon_motif,model_ops_bon_motif,base.group_user,1,1,1,1
+access_ops_parcours,access_ops_parcours,model_ops_parcours,base.group_user,1,1,1,1

@@ -1,0 +1,102 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="view_overtimes_preview_form">
+      <field name="name">overtimes.preview.graph</field>
+      <field name="model">overtimes.report</field>
+      <field name="arch" type="xml">
+          <form create="false" edit="false" delete="false" string="Overtimes info">
+              <sheet>
+                  <div class="oe_title">
+                    <h1>
+                        <field name="ref_batch"/>
+                    </h1>
+                  </div>
+                  <group>
+                      <group>
+                        <field name="employee"/>
+                        <field name="department"/>
+                          <field name="start_date"/>
+                        <field name="end_date"/>
+                      </group>
+                    <group>
+                        <field name="period_overtimes"/>
+                        <field name="maxhours_period" widget="float_time"/>
+                        <field name="total_hours" widget="float_time"/>
+                        <field name="total_overtimes" widget="float_time"/>
+                    </group>
+                  </group>
+                  <group string="Planning" readonly="1" >
+                    <field name="detail_overtimes" nolabel="1" >
+                        <tree>
+                            <field name="task_id"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="total_allocated_hours" widget="float_time" sum="Total"/>
+                        </tree>
+                    </field>
+                </group>
+            </sheet>
+          </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_overtimes_tree_form">
+      <field name="name">overtimes.tree</field>
+      <field name="model">overtimes.report</field>
+      <field name="arch" type="xml">
+          <tree create="false" string="Overtimes preview - Tree">
+              <field name="ref_batch"/>
+              <field name="department"/>
+              <field name="year_number"/>
+              <field name="month_number"/>
+              <field name="week_number"/>
+              <field name="employee"/>
+              <field name="period_overtimes"/>
+              <field name="start_date"/>
+              <field name="end_date"/>
+              <field name="maxhours_period"/>
+              <field name="total_hours"/>
+              <field name="total_overtimes"/>
+          </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_overtimes_report_graph">
+      <field name="name">overtimes.report.graph</field>
+      <field name="model">overtimes.report</field>
+      <field name="arch" type="xml">
+          <graph string="Overtimes report - Graph" stacked="False">
+              <field name="employee" type="row"/>
+          </graph>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_overtimes_report_pivot">
+      <field name="name">overtimes.report.pivot</field>
+      <field name="model">overtimes.report</field>
+      <field name="arch" type="xml">
+          <pivot string="Overtimes report - Pivot">
+              <field name="employee" type="row"/>
+              <field name="total_hours" type="measure"/>
+              <field name="maxhours_period" type="measure"/>
+              <field name="total_overtimes" type="measure"/>
+          </pivot>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="report_overtimes_report_action_window">
+      <field name="name">Overtimes Report</field>
+      <field name="res_model">overtimes.report</field>
+      <field name="view_mode">pivot,graph</field>
+    </record>
+
+      <menuitem name="Overtimes analysis" id="overtimes_report_menu_report"
+                parent="details_overtimes_report_menu_main" action="report_overtimes_report_action_window"/>
+
+ </data>
+</odoo>

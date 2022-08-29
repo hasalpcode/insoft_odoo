@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record forcecreate="True" id="ir_cron_create_report_overtimes_action" model="ir.cron">
+        <field name="name">Overtimes: Report</field>
+        <field name="model_id" ref="model_overtime_batch"/>
+        <field name="state">code</field>
+        <field name="active" eval="False"/>
+        <field name="priority" eval="5"/>
+        <field name="code">model._cron_create_batch_overtime()</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">months</field>
+<!--        <field name="nextcall" eval="(datetime.now() + timedelta(days=+7)).strftime('%Y-%m-%d 23:59:59')"/>-->
+        <field name="numbercall">-1</field>
+    </record>
+</odoo>

@@ -1,0 +1,46 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="view_details_overtimes_tree_form">
+      <field name="name">overtimes.tree</field>
+      <field name="model">overtime.details</field>
+      <field name="arch" type="xml">
+          <tree create="false" string="Details Overtimes - Tree">
+              <field name="ref_batch"/>
+              <field name="department"/>
+              <field name="employee_id"/>
+              <field name="year_number"/>
+              <field name="month_number"/>
+              <field name="week_number"/>
+              <field name="employee_id"/>
+              <field name="stopover_id"/>
+              <field name="task_id"/>
+              <field name="start_date"/>
+              <field name="end_date"/>
+              <field name="total_allocated_hours" sum="Total"/>
+
+          </tree>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="report_details_overtimes_report_action_window">
+      <field name="name">Details overtimes Report</field>
+      <field name="res_model">overtime.details</field>
+      <field name="view_mode">tree</field>
+    </record>
+
+      <menuitem name="Générations heures Sup"
+                id="details_overtimes_report_menu_main"
+                parent="planning.planning_menu_reporting_root"
+               sequence="10"/>
+
+
+      <menuitem name="Details Overtimes"
+                id="details_overtimes_report_menu_report"
+                parent="details_overtimes_report_menu_main"
+                action="report_details_overtimes_report_action_window"/>
+
+ </data>
+</odoo>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+
+        <report
+            id="ops_bon"
+            model="ops.bon"
+            string="Imprimer Bon"
+            report_type="qweb-pdf"
+            name="ss_ops_activity_scale.report_bon"
+            file="ss_ops_activity_scale.report_bon"
+
+        />
+
+        <template id="report_bon_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2><center><span t-field="o.type_description"/></center></h2>
+                    <div>
+                        <strong><span>Nombre de passagers : </span></strong><span t-field="o.nbr_passager"/> <br/>
+                        <strong><span>VOL  : </span></strong><span t-field="o.vol_id.name"/> <br/>
+                        <strong><span>Date  : </span></strong><span t-field="o.date"/> <br/>
+                        <strong><span>Destination  : </span></strong><span t-field="o.destination"/> <br/>
+                        <t t-if="o.type == 'hebergement'"><strong><span>Hotel  : </span></strong><span t-field="o.partner_id.name"/> <br/></t>
+                        <t t-if="o.type == 'hebergement'"><strong><span>Check In  : </span></strong><span t-field="o.check_in"/> <br/></t>
+                        <t t-if="o.type == 'hebergement'"><strong><span>Check Out : </span></strong><span t-field="o.check_out"/> <br/></t>
+                        <t t-if="o.type == 'transport'"><strong><span>Pick-up/Drop off  : </span></strong><span t-field="o.pickup"/> </t><br/>
+                        <strong><span>Motif  : </span></strong><span t-field="o.motif"/> <br/>
+                        <strong><span>Note  : </span></strong><span t-field="o.comment"/> <br/>
+                    </div>
+                </div>
+
+                <table class="table table-sm o_main_table" name="invoice_line_table">
+                        <thead style="border:1px solid">
+                            <tr>
+                                <th name="th_description" class="text-left" style="border-right:1px solid grey;border-bottom:1px solid grey"><span>Prénom</span></th>
+                                <th name="th_source" class="text-center" style="border-right:1px solid grey;border-bottom:1px solid grey"><span>Nom</span></th>
+                                <th name="th_source" class="text-center" style="border-right:1px solid grey;border-bottom:1px solid grey"><span>Numéro billet</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.passager_ids" t-as="line">
+                                    <td><span t-field="line.firstname" style="padding-left:5px"/></td>
+                                    <td><span t-field="line.name" style="padding-left:5px"/></td>
+                                    <td><span t-field="line.pax_seat" style="padding-left:5px"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                <t t-if="o.type == 'transport'"><table class="table table-sm o_main_table">
+                        <thead style="border:1px solid">
+                            <tr>
+                                <th name="th_description" class="text-left" style="border-right:1px solid grey;border-bottom:1px solid grey"><span>Parcours</span></th>
+                                <th name="th_source" class="text-center" style="border-right:1px solid grey;border-bottom:1px solid grey"><span>Date et heure</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.parcour_ids" t-as="p">
+                                    <td><span t-field="p.name" style="padding-left:5px"/></td>
+                                    <td style="text-align:right;padding-right:5px"><span t-field="p.date"/></td>
+                            </tr>
+
+                        </tbody>
+                </table>
+                </t>
+                <div style="padding-top:40px">
+                    <u><span t-field="o.user_approver"/></u>
+                </div>
+
+                 <div style="float:right;padding-right:10px"><img src="/ss_ops_activity_scale/static/img/sign.png" width="284px" height="205px"/></div>
+
+            </t>
+        </template>
+
+
+        <template id="report_bon">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="ss_ops_activity_scale.report_bon_document" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+<record id="wizard_repeat_planning_view" model="ir.ui.view">
+            <field name="name">Copier planning</field>
+            <field name="model">planning.preview.repeat</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Copier le planning">
+                    <div>
+                        <field name="planning_preview_id" invisible="1"/>
+                    </div>
+                    <group>
+                            <field name="date_repeat"/>
+                    </group>
+                    <footer>
+                        <button name="create_repeat_planning" string="Confirmer" type="object" class="oe_highlight"/>
+                        ou
+                       <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+    </record>
+    </data>
+</odoo>

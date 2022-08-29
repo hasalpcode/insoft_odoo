@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_prestataire_type,access_prestataire_type,model_prestataire_type,base.group_user,1,1,1,1
+access_ops_vol,access_ops_vol,model_ops_vol,base.group_user,1,1,1,1
+access_ops_module,access_ops_module,model_ops_module,base.group_user,1,1,1,1
+access_ops_plane_model,access_ops_plane_model,model_ops_plane_model,base.group_user,1,1,1,1
+access_ops_reseau_type,access_ops_reseau_type,model_ops_reseau_type,base.group_user,1,1,1,1
+access_ops_passager,access_ops_passager,model_ops_passager,base.group_user,1,1,1,1

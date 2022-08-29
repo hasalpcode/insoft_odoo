@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="planning_sup_hours_details_view_form" model="ir.ui.view">
+            <field name="name">planning.hour.line.form</field>
+            <field name="model">planning.hour.line</field>
+            <field name="arch" type="xml">
+                <form string="Détails">
+
+                    <sheet>
+
+                        <div class="oe_title">
+                            <label for="employee_id"/>
+                            <h1>
+                                <field name="employee_id" readonly="1"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="total_hours" readonly="1"/>
+                                <field name="operating_unit_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="sup_hours" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Planifications">
+                            <field name="slot_ids" nolabel="1" readonly="1"/>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="planning_sup_hours_view_form" model="ir.ui.view">
+            <field name="name">planning.sup.hours.form</field>
+            <field name="model">planning.sup.hours</field>
+            <field name="arch" type="xml">
+                <form string="Planning Sup Hours">
+                    <header>
+                        <button string="Envoyer reporting" name="action_planning_sent" type="object" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+
+                        <div class="oe_title">
+                            <label for="operating_unit_id"/>
+                            <h1>
+                                <field name="operating_unit_id" readonly="1"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="date_start" readonly="1"/>
+                                <field name="date_stop" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="type" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Détails">
+                            <field name="slot_hours" nolabel="1" readonly="1">
+                                <tree>
+                                    <field name="employee_id"/>
+                                    <field name="total_hours" widget="float_time"/>
+                                    <field name="sup_hours" widget="float_time"/>
+                                    <field name="sum_slot"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="planning_sup_hours_view_pivot" model="ir.ui.view">
+         <field name="name">planning.sup.hours.pivot</field>
+         <field name="model">planning.hour.line</field>
+         <field name="arch" type="xml">
+             <pivot string="Analyse">
+                <field name="employee_id" type="row"/>
+                <field name="total_hours" type="measure"/>
+                <field name="sup_hours" type="measure"/>
+             </pivot>
+         </field>
+    </record>
+
+    <record id="planning_sup_hours_view_graph" model="ir.ui.view">
+        <field name="name">planning.hour.line.graph</field>
+        <field name="model">planning.hour.line</field>
+        <field name="arch" type="xml">
+            <graph string="Planning Analysis" type="bar">
+                <field name="employee_id" type="row"/>
+                <field name="total_hours" type="measure"/>
+                <field name="sup_hours" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+
+        <record id="planning_sup_hours_line_search" model="ir.ui.view">
+            <field name="name">planning.sup.hours.search</field>
+            <field name="model">planning.hour.line</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="operating_unit_id"/>
+                    <field name="employee_id"/>
+                    <field name="slot_ids"/>
+                    <separator/>
+                    <group string="Regrouper">
+                        <filter name="group_by_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+                        <filter name="group_operating_unit_id" string="Escale"
+                                context="{'group_by': 'operating_unit_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="planning_sup_hours_view_tree" model="ir.ui.view">
+            <field name="name">planning.sup.hours.tree</field>
+            <field name="model">planning.sup.hours</field>
+            <field name="arch" type="xml">
+                <tree string="Planning Heures Sup">
+                    <field name="operating_unit_id"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="planning_sup_hours_line_tree" model="ir.ui.view">
+            <field name="name">planning.hour.line.tree</field>
+            <field name="model">planning.hour.line</field>
+            <field name="arch" type="xml">
+                <tree string="Planning Heures Sup">
+                    <field name="operating_unit_id"/>
+                    <field name="employee_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_view_planning_sup_hours" model="ir.actions.act_window">
+            <field name="name">Planning heures sup</field>
+            <field name="res_model">planning.sup.hours</field>
+            <field name="view_mode">pivot,form,tree</field>
+            <field name="domain">[]</field>
+            <field name="view_id" ref="planning_sup_hours_view_tree"/>
+        </record>
+
+        <record id="action_view_analyst_sup_hours" model="ir.actions.act_window">
+            <field name="name">Analyse des heures sup</field>
+            <field name="res_model">planning.hour.line</field>
+            <field name="view_mode">pivot,form,tree</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <record id="planning_filter_by_employee" model="ir.filters">
+        <field name="name">Hours per Employee</field>
+        <field name="model_id">planning.hour.line</field>
+        <field name="user_id" eval="False"/>
+        <field name="is_default" eval="True"/>
+        <field name="context">{
+            'pivot_measures': ['sup_hours'],
+            'pivot_measures': ['total_hours'],
+            'pivot_column_groupby': ['employee_id'],
+
+        }</field>
+        <field name="action_id" ref="action_view_analyst_sup_hours"/>
+    </record>
+
+
+        <!--<menuitem-->
+                <!--id="planning_menu_statistic_sup_hour"-->
+                <!--name="ANalyse heures sup"-->
+                <!--action="action_view_analyst_sup_hours"-->
+                <!--sequence="10"-->
+                <!--parent="planning_menu_reporting_root"-->
+                <!--groups="planning.group_planning_manager"/>-->
+
+
+        <!--<menuitem-->
+                <!--id="planning_menu_view_sup_hours"-->
+                <!--name="Heures Sup"-->
+                <!--action="action_view_planning_sup_hours"-->
+                <!--sequence="10"-->
+                <!--parent="planning_menu_reporting_root"-->
+                <!--groups="planning.group_planning_manager"/>-->
+
+    </data>
+</odoo>

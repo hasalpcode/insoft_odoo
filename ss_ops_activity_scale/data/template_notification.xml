@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="email_template_edi_bon" model="mail.template">
+        <field name="name">Bon: Send by email</field>
+        <field name="model_id" ref="model_ops_bon"/>
+        <field name="email_from">${object.department_id.address_mail or or planning_opssol@airsenegalsa.sn |safe}</field>
+        <field name="partner_to">${object.partner_id.id}</field>
+        <field name="subject">${object.company_id.name} (${object.type_description})</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+
+                </p>
+            </div>
+        </field>
+        <field name="report_template" ref="ops_bon"/>
+        <field name="report_name">Bon</field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+
+    <record id="bon_submit_template" model="mail.template">
+        <field name="name">Bon submit</field>
+        <field name="model_id" ref="model_ops_bon"/>
+        <field name="subject">Bon envoyer pour approbation</field>
+        <field name="email_from">${object.user_id.email_formatted |safe}</field>
+        <field name="email_to">${object.notification_users}</field>
+        <field name="body_html">
+            <![CDATA[<p>
+                    Bonjour, <br/>
+                    On vient de soumttre  un ${object.type_description}  pour approbation.<br/>
+                    <strong> Type :</strong> ${object.type_description}<br/>
+                    <strong> Prestataire </strong>: ${object.partner_id.name}<br/>
+
+                    <table cellspacing="0" cellpadding="0" style="width:600px;border-collapse:collapse;background:inherit;color:inherit">
+                        <tbody>
+                        <tr>
+                            <td valign="center" align="right" width="340" style="padding:10px 10px 10px 5px; font-size: 12px;">
+                                <p>
+                                    <a href="${object.get_full_url()}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; color:black;vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FF9933; border: 1px solid #875A7B; border-radius:3px">Veuillez suivre ce lien si vous souhaitez poursuivre le traitement.</a>
+                                </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </p>
+                ]]>
+        </field>
+    </record>
+
+
+    <record id="bon_approve_1_template" model="mail.template">
+        <field name="name">Bon première approbation</field>
+        <field name="model_id" ref="model_ops_bon"/>
+        <field name="subject">Bon première approbation</field>
+        <field name="email_from">${object.user_id.email_formatted |safe}</field>
+        <field name="email_to">${object.notification_users}</field>
+        <field name="body_html">
+            <![CDATA[<p>
+                    Bonjour, <br/>
+                    On vient de faire une première approbation.<br/>
+                    <strong> Type :</strong> {object.type_description}<br/>
+                    <strong> Prestataire </strong>: ${object.partner_id.name}<br/>
+
+                    <table cellspacing="0" cellpadding="0" style="width:600px;border-collapse:collapse;background:inherit;color:inherit">
+                        <tbody>
+                        <tr>
+                            <td valign="center" align="right" width="340" style="padding:10px 10px 10px 5px; font-size: 12px;">
+                                <p>
+                                    <a href="${object.get_full_url()}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; color:black;vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FF9933; border: 1px solid #875A7B; border-radius:3px">Veuillez suivre ce lien si vous souhaitez poursuivre le traitement.</a>
+                                </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </p>
+                ]]>
+        </field>
+    </record>
+
+    <record id="bon_approve_final_template" model="mail.template">
+        <field name="name">Bon validé</field>
+        <field name="model_id" ref="model_ops_bon"/>
+        <field name="subject">Bon validé</field>
+        <field name="email_from">${object.user_id.email_formatted |safe}</field>
+        <field name="email_to">${object.notification_users}</field>
+        <field name="body_html">
+            <![CDATA[<p>
+                    Bonjour, <br/>
+                    On vient de valider un bon dans la plateforme.<br/>
+                    <strong> Type :</strong> {object.type_description}<br/>
+                    <strong> Prestataire </strong>: ${object.partner_id.name}<br/>
+
+                    <table cellspacing="0" cellpadding="0" style="width:600px;border-collapse:collapse;background:inherit;color:inherit">
+                        <tbody>
+                        <tr>
+                            <td valign="center" align="right" width="340" style="padding:10px 10px 10px 5px; font-size: 12px;">
+                                <p>
+                                    <a href="${object.get_full_url()}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; color:black;vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FF9933; border: 1px solid #875A7B; border-radius:3px">Veuillez suivre ce lien si vous souhaitez poursuivre le traitement.</a>
+                                </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </p>
+                ]]>
+        </field>
+    </record>
+
+    <record id="bon_cancel_template" model="mail.template">
+        <field name="name">Bon Refusé</field>
+        <field name="model_id" ref="model_ops_bon"/>
+        <field name="subject">Bon refusé</field>
+        <field name="email_from">${object.user_id.email_formatted |safe}</field>
+        <field name="email_to">${object.notification_users}</field>
+        <field name="body_html">
+            <![CDATA[<p>
+                    Bonjour, <br/>
+                    On vient de rejeter un bon dans la plateforme.<br/>
+                    <strong> Type :</strong> {object.type_description}<br/>
+                    <strong> Prestataire </strong>: ${object.partner_id.name}<br/>
+
+                    <table cellspacing="0" cellpadding="0" style="width:600px;border-collapse:collapse;background:inherit;color:inherit">
+                        <tbody>
+                        <tr>
+                            <td valign="center" align="right" width="340" style="padding:10px 10px 10px 5px; font-size: 12px;">
+                                <p>
+                                    <a href="${object.get_full_url()}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; color:black;vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FF9933; border: 1px solid #875A7B; border-radius:3px">Veuillez suivre ce lien si vous souhaitez poursuivre le traitement.</a>
+                                </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </p>
+                ]]>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Project forecast will warn if the user assigned to a forecast doesn't have a timezone -->
+        <record id="base.user_demo" model="res.users">
+            <field name="tz">Europe/Brussels</field>
+            <field name="groups_id" eval="[(4,ref('planning.group_planning_user'))]"/>
+        </record>
+
+        <!-- Roles -->
+        <record id="planning_role_bartender" model="planning.task">
+            <field name="name">Bartender</field>
+            <field name="color">2</field>
+        </record>
+        <record id="planning_role_waiter" model="planning.task">
+            <field name="name">Waiter</field>
+            <field name="color">3</field>
+        </record>
+        <record id="planning_role_chef" model="planning.task">
+            <field name="name">Chef</field>
+            <field name="color">4</field>
+        </record>
+
+        <!-- Shift templates (morning shifts) -->
+        <record id="planning_template_chef_morning" model="planning.slot.template">
+            <field name="task_id" ref="planning_role_chef"/>
+            <field name="start_time" eval="8"/>
+            <field name="duration" eval="6"/>
+        </record>
+        <record id="planning_template_bartender_morning" model="planning.slot.template">
+            <field name="task_id" ref="planning_role_bartender"/>
+            <field name="start_time" eval="8"/>
+            <field name="duration" eval="8"/>
+        </record>
+        <record id="planning_template_waiter_morning" model="planning.slot.template">
+            <field name="task_id" ref="planning_role_waiter"/>
+            <field name="start_time" eval="8"/>
+            <field name="duration" eval="8"/>
+        </record>
+
+        <!-- Shift templates (evening shifts) -->
+        <record id="planning_template_chef_evening" model="planning.slot.template">
+            <field name="task_id" ref="planning_role_chef"/>
+            <field name="start_time" eval="14"/>
+            <field name="duration" eval="8"/>
+        </record>
+        <record id="planning_template_bartender_evening" model="planning.slot.template">
+            <field name="task_id" ref="planning_role_bartender"/>
+            <field name="start_time" eval="16"/>
+            <field name="duration" eval="8"/>
+        </record>
+        <record id="planning_template_waiter_evening" model="planning.slot.template">
+            <field name="task_id" ref="planning_role_waiter"/>
+            <field name="start_time" eval="16"/>
+            <field name="duration" eval="8"/>
+        </record>
+
+        <!-- Recurrencies -->
+        <record id="planning_recurrency_1" model="planning.recurrency">
+            <field name="repeat_interval" eval="1"/>
+            <field name="repeat_type">forever</field>
+        </record>
+        <record id="planning_recurrency_2" model="planning.recurrency">
+            <field name="repeat_interval" eval="1"/>
+            <field name="repeat_type">forever</field>
+        </record>
+        <record id="planning_recurrency_3" model="planning.recurrency">
+            <field name="repeat_interval" eval="1"/>
+            <field name="repeat_type">forever</field>
+        </record>
+
+        <function model="planning.recurrency" name="_repeat_slot" eval="[[ref('planning_recurrency_1'), ref('planning_recurrency_2'), ref('planning_recurrency_3')]]"/>
+
+    </data>
+</odoo>

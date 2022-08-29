@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_overtime_batch,overtime.batch,model_overtime_batch,base.group_user,1,1,1,1
+access_overtime_details,overtime.details,model_overtime_details,base.group_user,1,1,1,1
+access_overtime,overtime,model_overtime,base.group_user,1,1,1,1
+access_overtimes_report,overtimes.report,model_overtimes_report,base.group_user,1,1,1,1

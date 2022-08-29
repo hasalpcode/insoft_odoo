@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="ss_ops_checklis_touchee_view_tree" model="ir.ui.view">
+        <field name="name">activity.escale.service.tree</field>
+        <field name="model">activity.escale.service</field>
+        <field name="arch" type="xml">
+            <tree string="Services prestataires">
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="scal_service_form" model="ir.ui.view">
+        <field name="name">service.escale.form</field>
+        <field name="model">service.escale</field>
+        <field name="arch" type="xml">
+            <form string='Services'>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="type"/>
+                            <field name="note"/>
+                        </group>
+                        <group>
+                            <field name="code"/>
+                            <field name="on_touche"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="checklist_line_form" model="ir.ui.view">
+        <field name="name">activity.escale.service.line.form</field>
+        <field name="model">activity.escale.service.line</field>
+        <field name="arch" type="xml">
+            <form string='Ligne de services'>
+                <header>
+                    <button string="En cours" name="action_open" states="draft" type="object" class="oe_highlight"/>
+                    <button string="Clôturer" name="action_done" type="object" states="open" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="vol_id"/>
+                        <h1>
+                            <field name="vol_id" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="service_id"/>
+                            <field name="partner_id"/>
+                            <field name="comment"/>
+                        </group>
+                        <group>
+                            <field name="date_start_preview"/>
+                            <field name="date_stop_preview"/>
+                            <field name="date_start_real"/>
+                            <field name="date_stop_real"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="duration_hours_real"/>
+                            <field name="duration_hours_preview"/>
+                        </group>
+                        <group>
+                            <field name="is_late_start"/>
+                            <field name="is_late_end"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="wizard_ops_bon_approver_view" model="ir.ui.view">
+            <field name="name">Approver</field>
+            <field name="model">ops.bon.wizard.approver</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Approbation">
+                    <div>
+                        <field name="bon_id" invisible="1"/>
+                    </div>
+                    <group>
+                            <field name="comment"/>
+                    </group>
+                    <footer>
+                        <button name="action_approve" string="Confirmer" type="object" class="oe_highlight"/>
+                        ou
+                       <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+    </record>
+
+
+    <record id="wizard_ops_bon_cancel_view" model="ir.ui.view">
+            <field name="name">Rejeter</field>
+            <field name="model">ops.bon.wizard.cancel</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Approbation">
+                    <div>
+                        <field name="bon_id" invisible="1"/>
+                    </div>
+                    <group>
+                            <field name="comment"/>
+                    </group>
+                    <footer>
+                        <button name="action_cancel" string="Confirmer" type="object" class="oe_highlight"/>
+                        ou
+                       <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+    </record>
+
+    <record id="ops_bon_form" model="ir.ui.view">
+        <field name="name">ops.bon.form</field>
+        <field name="model">ops.bon</field>
+        <field name="arch" type="xml">
+            <form string='Bon'>
+                <header>
+                    <button string="Soumettre" name="action_submit" type="object" class="oe_highlight" attrs="{'invisible':[('state_code','!=','Nv')]}" groups="ss_ops_base.group_bon_createuser"/>
+                    <button string="Approuver" name="open_wizard_ops_bon_approver" type="object" class="oe_highlight" attrs="{'invisible':[('state_code','in',['Nv','Do','BC','St'])]}" groups="ss_ops_base.group_approver_bon"/>
+                    <button string="Refuser" name="open_wizard_ops_bon_cancel" type="object" class="oe_highlight" attrs="{'invisible':[('state_code','in',['Nv','Do','BC','St'])]}" groups="ss_ops_base.group_approver_bon"/>
+                    <button string="Envoyer Bon" name="action_bon_sent" type="object" class="oe_highlight" attrs="{'invisible':[('state_code','not in',['Do'])]}"/>
+                    <field name="state_id" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="vol_id"/>
+                        <h1>
+                            <field name="vol_id" placeholder="Vol"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="type"/>
+                            <field name="state_code" invisible="1"/>
+                            <field name="user_approver" invisible="1"/>
+                            <field name="current_user" invisible="1"/>
+                            <field name="partner_id"/>
+                            <field name="prise_en_charge_type" attrs="{'invisible':[('type','!=','hebergement')],'required':[('type','=','hebergement')]}"/>
+                            <field name="pickup" attrs="{'invisible':[('type','=','hebergement')],'required':[('type','!=','hebergement')]}"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="contract_type"/>
+                            <field name="check_in" attrs="{'invisible':[('type','!=','hebergement')],'required':[('type','=','hebergement')]}"/>
+                            <field name="check_out" attrs="{'invisible':[('type','!=','hebergement')],'required':[('type','=','hebergement')]}"/>
+                            <field name="destination"/>
+                            <field name="motif"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="comment"/>
+                        </group>
+                    </group>
+                    <group string="Passagers">
+                        <field name="passager_ids" domain="[('vol_id','=',vol_id)]" nolabel="1">
+                            <tree>
+                                <field name="name"/>
+                                <field name="firstname"/>
+                                <field name="pax_seat" string="Numéro ticket"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group attrs="{'invisible':[('type','=','hebergement')]}">
+                        <field name="parcour_ids" nolabel="1">
+                                    <tree editable="top">
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                    </tree>
+                                </field>
+                    </group>
+                    <group string="Historique des approbations">
+                            <field name="approvers" nolabel="1" readonly="1">
+                                <tree editable="top" string="Historique d'approbation" decoration-danger="state=='cancel'">
+                                    <field name="user_id"/>
+                                    <field name="date_approved"/>
+                                    <field name="comment"/>
+                                    <field name="state" widget="label_selection"/>
+                                </tree>
+                            </field>
+                        </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="ops_ss_board_checlist_line_search">
+            <field name="name">ss.board.vol.search</field>
+            <field name="model">activity.escale.service.line</field>
+            <field name="arch" type="xml">
+                <search string="Checklist">
+                    <field name="service_id"/>
+                    <field name="vol_id"/>
+                    <field name="user_id"/>
+
+                    <group string="Group By">
+                        <filter name="group_by_service" string="Service" context="{'group_by': 'service_id'}"/>
+                        <filter name="group_by_vol_id" string="Vol" context="{'group_by': 'vol_id'}"/>
+                        <filter name="group_by_user_id" string="Agent" context="{'group_by': 'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    <record model="ir.ui.view" id="ops_ss_board_bon_search">
+            <field name="name">ss.board.bon.search</field>
+            <field name="model">ops.bon</field>
+            <field name="arch" type="xml">
+                <search string="Bon">
+                    <field name="vol_id"/>
+                    <field name="type"/>
+                    <group string="Group By">
+                        <filter name="group_by_vol_id" string="Vol" context="{'group_by': 'vol_id'}"/>
+                        <filter name="group_by_type" string="Type" context="{'group_by': 'type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    <record id="view_ops_bon_state_tree" model="ir.ui.view">
+            <field name="name">Bon state tree</field>
+            <field name="model">ops.bon.state</field>
+            <field name="arch" type="xml">
+                <tree string="Etapes" editable="top">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="group_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+    <record id="ss_ops_bon_view_tree" model="ir.ui.view">
+        <field name="name">ss_ops.bon.tree</field>
+        <field name="model">ops.bon</field>
+        <field name="arch" type="xml">
+            <tree string="Bons">
+                <field name="vol_id"/>
+                <field name="type"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <field name="prise_en_charge_type"/>
+                <field name="state_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ss_ops_service_prestation_view_tree" model="ir.ui.view">
+        <field name="name">activity.escale.service.line.tree</field>
+        <field name="model">activity.escale.service.line</field>
+        <field name="arch" type="xml">
+            <tree string="Services prestataires">
+                <field name="vol_id"/>
+                <field name="service_id"/>
+                <field name="partner_id"/>
+                <field name="date_start_preview"/>
+                <field name="date_stop_preview"/>
+                <field name="date_start_real"/>
+                <field name="date_stop_real"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ss_ops_service_tree" model="ir.ui.view">
+        <field name="name">ops.services.tree</field>
+        <field name="model">service.escale</field>
+        <field name="arch" type="xml">
+            <tree string="Services" editable="top">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="on_touche"/>
+                <field name="type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ss_ops_service_type_tree" model="ir.ui.view">
+        <field name="name">service.type.tree</field>
+        <field name="model">service.type</field>
+        <field name="arch" type="xml">
+            <tree string="Type de Services" editable="top">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_status_ops_bon" model="ir.actions.act_window">
+        <field name="name">Statuts Bons</field>
+        <field name="res_model">ops.bon.state</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_ops_bon_state_tree"/>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="action_ops_bon" model="ir.actions.act_window">
+        <field name="name">Bons</field>
+        <field name="res_model">ops.bon</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="ss_ops_bon_view_tree"/>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="action_ops_bon_by_vol" model="ir.actions.act_window">
+        <field name="name">Bons</field>
+        <field name="res_model">ops.bon</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="ss_ops_bon_view_tree"/>
+        <field name="context">{'search_default_vol_id': [active_id], 'default_vol_id': active_id}</field>
+    </record>
+
+    <record id="action_ss_ops_service" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="res_model">service.escale</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="ss_ops_service_tree"/>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="action_checklist_touchee" model="ir.actions.act_window">
+        <field name="name">Checklist Touchée</field>
+        <field name="res_model">activity.escale.service</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="ss_ops_checklis_touchee_view_tree"/>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="action_ss_ops_service_prestation" model="ir.actions.act_window">
+        <field name="name">Services prestatires Lines</field>
+        <field name="res_model">activity.escale.service.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="ss_ops_service_prestation_view_tree"/>
+        <field name="search_view_id" ref="ops_ss_board_checlist_line_search"/>
+        <field name="context">{'search_default_vol_id': [active_id], 'default_vol_id': active_id}</field>
+
+    </record>
+
+    <record id="action_ss_ops_all_service_prestation" model="ir.actions.act_window">
+        <field name="name">Services prestatires Lines</field>
+        <field name="res_model">activity.escale.service.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="ss_ops_service_prestation_view_tree"/>
+        <field name="search_view_id" ref="ops_ss_board_checlist_line_search"/>
+        <field name="context">{}</field>
+
+    </record>
+
+    <record id="action_ss_ops_partner_service_prestation" model="ir.actions.act_window">
+        <field name="name">Services prestatires Lines</field>
+        <field name="res_model">activity.escale.service.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="ss_ops_service_prestation_view_tree"/>
+        <field name="context">{'search_default_partner_id': [active_id], 'default_partner_id': active_id}</field>
+    </record>
+
+    <record id="action_ss_ops_service_type" model="ir.actions.act_window">
+        <field name="name">Types de Services</field>
+        <field name="res_model">service.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="ss_ops_service_type_tree"/>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="action_ss_ops_prestataires" model="ir.actions.act_window">
+        <field name="name">Prestataires</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="base.res_partner_kanban_view"/>
+        <field name="domain">[('supplier_rank','=',True),('is_company','=',True)]</field>
+        <field name="context">{'default_supplier_rank':True,'default_is_company':True}</field>
+    </record>
+
+    <menuitem
+            id="menu_service_prestataire_root"
+            name="Opérations Sol"
+            sequence="25"
+            web_icon="ss_ops_activity_scale,static/img/icon.png"
+    />
+
+<!--
+    <menuitem
+            id="planning_menu_my_planning"
+            name="Lignes checklists"
+            sequence="2"
+            parent="menu_service_prestataire_root"
+            action="action_ss_ops_all_service_prestation"/>-->
+
+    <menuitem
+            id="menu_service_escale"
+            name="Services"
+            parent="menu_service_prestataire_root"
+            sequence="2"
+            action="action_ss_ops_service"
+    />
+
+    <menuitem
+            id="menu_service_escale_analyst"
+            name="Analyses"
+            parent="menu_service_prestataire_root"
+            sequence="10"
+    />
+
+    <menuitem
+            id="menu_service_escale_analyst_cumul_hours"
+            name="Cumul heures prestation"
+            parent="menu_service_escale_analyst"
+            sequence="1"
+            action="ss_ops_activity_action_analysis"
+    />
+    <menuitem
+            id="menu_service_escale_analyst_late_prestation"
+            name="Cumul retard prestations"
+            parent="menu_service_escale_analyst"
+            sequence="2"
+            action="ss_ops_activity_action_analysis_is_late"
+    />
+
+    <menuitem
+            id="menu_prestataires"
+            name="Prestataires"
+            parent="menu_service_prestataire_root"
+            sequence="3"
+            action="action_ss_ops_prestataires"
+    />
+
+    <menuitem
+            id="menu_service_config"
+            name="Configuration"
+            parent="menu_service_prestataire_root"
+            sequence="100"
+    />
+
+    <menuitem
+            id="menu_service_type_config"
+            name="Types de Services"
+            parent="menu_service_config"
+            action="action_ss_ops_service_type"
+            sequence="1"
+    />
+
+    <menuitem
+            id="menu_bon_state_config"
+            name="Statuts Bon"
+            parent="menu_service_config"
+            action="action_status_ops_bon"
+            sequence="2"
+    />
+
+</odoo>

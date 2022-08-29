@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="ss_ops_passager_view_tree" model="ir.ui.view">
+        <field name="name">ss_ops.passager.tree</field>
+        <field name="model">ops.passager</field>
+        <field name="arch" type="xml">
+            <tree string="Passager">
+                <field name="name"/>
+                <field name="firstname"/>
+            </tree>
+        </field>
+    </record>
+
+         <record model="ir.ui.view" id="partner_view_prestations_kanban">
+            <field name="name">partner.kanban</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+            <field name="priority" eval="11"/>
+             <field name="arch" type="xml">
+                 <xpath expr="//field[@name='type']" position="after">
+                      <field name="prestataire_type"/>
+                 </xpath>
+
+                 <xpath expr="//div/ul" position="inside">
+                     <li><field name="prestataire_type"/></li>
+                 </xpath>
+             </field>
+         </record>
+
+
+
+ <record model="ir.ui.view" id="partner_view_prestations">
+            <field name="name">partner.view.buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority" eval="11"/>
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="after">
+                      <field name="prestataire_type" placeholder="Type prestataire"/>
+
+                 </xpath>
+
+                <xpath expr="//button[@name='action_view_partner_invoices']" position="replace">
+                    <button type="action" class="oe_stat_button" icon="fa-pencil-square-o" name="%(action_ss_ops_partner_service_prestation)d"
+                        context="{'default_partner_id': active_id}">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_value">
+                            </span>
+                            <span class="o_stat_text">Prestations</span>
+                        </div>
+                    </button>
+                </xpath>
+                <xpath expr="//field[@name='company_type']" position="after">
+                    <field name="contract_type" options="{'horizontal': true}" class="oe_edit_only" widget="radio" />
+                </xpath>
+                <notebook>
+                    <page string="Services">
+                        <field name="service_ids">
+                            <tree editable="top">
+                                <field name="service_id"/>
+                                <field name="contract_type"/>
+                                <field name="state"/>
+                                <field name="comment"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+
+        <report
+            id="planning_preview"
+            model="planning.preview"
+            string="Imprimer Planning"
+            report_type="qweb-pdf"
+            name="planning.report_planning"
+            file="planning.report_planning"
+
+        />
+
+        <template id="report_planning_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2><center>Ref Planning :<span t-field="o.name"/></center></h2>
+                    <div>
+                        <strong><span>Date de début  : </span> </strong><span t-field="o.date_start"/> <br/>
+                        <strong><span>Date de fin  : </span> </strong><span t-field="o.date_stop"/><br/>
+                        <strong><span>Département  : </span> </strong><span t-field="o.department_id"/><br/>
+                        <strong><span>Escale  : </span> </strong><span t-field="o.operating_unit_id"/><br/>
+                    </div>
+                </div>
+
+                <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th name="th_description" class="text-left" style="border-right:1px solid grey;"><span>Employé</span></th>
+                                <th name="th_source" class="text-center" style="border-right:1px solid grey"><span>Tâche</span></th>
+                                <th name="th_source" class="text-center" style="border-right:1px solid grey"><span>Début</span></th>
+                                <th name="th_source" class="text-center" style="border-right:1px solid grey"><span>Fin</span></th>
+                                <th name="th_source" class="text-center" style="border-right:1px solid grey"><span>Heurs allouées</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.slot_ids" t-as="line">
+                                    <td><span t-field="line.employee_id" style="padding-left:5px"/></td>
+                                    <td><span t-field="line.task_id" style="padding-left:5px"/></td>
+                                    <td><span t-field="line.start_datetime" style="padding-left:5px"/></td>
+                                    <td><span t-field="line.end_datetime" style="padding-left:5px"/></td>
+                                    <td style="padding-right:5px;text-align:right"><span t-field="line.allocated_hours"/></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+            </t>
+        </template>
+
+
+        <template id="report_planning">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="planning.report_planning_document" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

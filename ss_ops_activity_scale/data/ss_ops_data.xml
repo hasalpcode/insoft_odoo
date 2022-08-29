@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_ops_checklis_touchee" model="ir.sequence">
+            <field name="name">Checklist Touchee</field>
+            <field name="code">activity.escale.service</field>
+            <field name="prefix">CT</field>
+            <field name="padding">9</field>
+        </record>
+
+       <!-- <record forcecreate="True" id="service_1" model="service.escale">
+            <field name="name">Information sur le FRET</field>
+        </record>
+        <record forcecreate="True" id="service_2" model="service.escale">
+            <field name="name">Visualiasation FRET Départ</field>
+        </record>
+        <record forcecreate="True" id="service_3" model="service.escale">
+            <field name="name">Préparation Matériel</field>
+        </record>
+
+        <record forcecreate="True" id="service_4" model="service.escale">
+            <field name="name">Ouverture Check In</field>
+        </record>
+
+        <record forcecreate="True" id="service_5" model="service.escale">
+            <field name="name">Fermeture</field>
+        </record>
+
+        <record forcecreate="True" id="service_6" model="service.escale">
+            <field name="name">Accord embarquement Pax</field>
+        </record>
+
+        <record forcecreate="True" id="service_7" model="service.escale">
+            <field name="name">Embarquement</field>
+        </record>
+
+        <record forcecreate="True" id="service_8" model="service.escale">
+            <field name="name">Positionnement Matériel</field>
+        </record>
+
+        <record forcecreate="True" id="service_9" model="service.escale">
+            <field name="name">Déchargements Soutes</field>
+        </record>
+
+        <record forcecreate="True" id="service_10" model="service.escale">
+            <field name="name">Avitaillement</field>
+        </record>-->
+
+        <!-- States  -->
+
+        <record model="ops.bon.state" id="bon_state_1">
+            <field name="name">Brouillon</field>
+            <field name="code">Nv</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record model="ops.bon.state" id="bon_state_2">
+            <field name="name">Soumis</field>
+            <field name="code">Sm</field>
+            <field name="sequence">2</field>
+        </record>
+
+         <record model="ops.bon.state" id="bon_state_3">
+            <field name="name">Première Approbation</field>
+            <field name="code">SD</field>
+            <field name="sequence">3</field>
+        </record>
+
+        <record model="ops.bon.state" id="bon_state_4">
+            <field name="name">Validé</field>
+            <field name="code">Do</field>
+            <field name="sequence">4</field>
+        </record>
+
+        <record model="ops.bon.state" id="bon_state_5">
+            <field name="name">Bon envoyé</field>
+            <field name="code">St</field>
+            <field name="sequence">5</field>
+        </record>
+
+        <record model="ops.bon.state" id="bon_state_6">
+            <field name="name">Bon Refusé</field>
+            <field name="code">BC</field>
+            <field name="sequence">6</field>
+        </record>
+
+        <!-- Prise en charge-->
+        <record model="ops.prisencharge.type" id="prise_encharge_1">
+            <field name="name">Demi-pension</field>
+        </record>
+
+    </data>
+</odoo>

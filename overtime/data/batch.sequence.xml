@@ -1,0 +1,17 @@
+<odoo>
+    <data noupdate="1">
+
+        <!--   Sequence for batch     -->
+
+        <record id="sequence_batch_overtimes" model="ir.sequence">
+            <field name="name">Sequence batch overtime</field>
+            <field name="code">batch.overtimes</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">BTCH</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+    </data>
+</odoo>

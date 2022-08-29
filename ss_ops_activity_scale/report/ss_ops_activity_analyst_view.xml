@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ss_ops_activity_pivot" model="ir.ui.view">
+         <field name="name">activity.escale.prestation.pivot</field>
+         <field name="model">activity.escale.service.line</field>
+         <field name="arch" type="xml">
+             <pivot string="Prestatations prestataires">
+                <field name="duration_hours_real" interval="month" type="col"/>
+                <field name="partner_id" type="row"/>
+                <field name="duration_hours_preview" type="measure"/>
+                <field name="duration_hours_real" type="measure"/>
+             </pivot>
+         </field>
+    </record>
+
+     <record id="ss_ops_activity_view_graph" model="ir.ui.view">
+        <field name="name">activity.escale.prestation.graph</field>
+        <field name="model">activity.escale.service.line</field>
+        <field name="arch" type="xml">
+            <graph string="Prestatations prestataires" type="bar">
+               <field name="partner_id" type="row"/>
+                <field name="duration_hours_preview" type="measure"/>
+                <field name="duration_hours_real" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+ <record id="ss_ops_activity_view_search" model="ir.ui.view">
+        <field name="name">activity.escale.prestation.search</field>
+        <field name="model">activity.escale.service.line</field>
+        <field name="arch" type="xml">
+            <search string="Analyse des activités">
+                <field name="partner_id" filter_domain="[('partner_id', 'ilike', self)]"/>
+                <field name="service_id" filter_domain="[('service_id', 'ilike', self)]"/>
+                <filter string="Retard départ" name="is_late_start" domain="['|',('is_late_start','=',True),('is_late_end','=',False)]"/>
+                <filter string="Retard exécution" name="is_late_end" domain="['|',('is_late_start','=',False),('is_late_end','=',True)]"/>
+                <field name="date_start_preview"/>
+                <field name="date_start_real"/>
+                <field name="date_stop_preview"/>
+                <field name="date_stop_real"/>
+                <field name="duration_hours_real"/>
+                <field name="duration_hours_preview"/>
+                <field name="is_late_start"/>
+                <field name="is_late_end"/>
+                <separator/>
+                <group expand="1" string="Regrouper par">
+                    <filter string="Prestataire" name="partner_id" context="{'group_by':'partner_id'}"/>
+                    <filter string="Prestation" name="service" context="{'group_by':'service_id'}"/>
+                    <filter string="Company" name="company" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
+                    <separator/>
+                    <filter string="Date" name="date_stop_real" context="{'group_by':'date_stop_real:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="ss_ops_activity_action_analysis" model="ir.actions.act_window">
+        <field name="name">Cumul des Heures prestataions</field>
+        <field name="res_model">activity.escale.service.line</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="domain">[]</field>
+    </record>
+
+    <record id="ss_ops_activity_action_analysis_is_late" model="ir.actions.act_window">
+        <field name="name">Cumul retards prestataires</field>
+        <field name="res_model">activity.escale.service.line</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="domain">['|',('is_late_start','=',True),('is_late_end','=',True)]</field>
+        <field name="context">{'group_by': ['date_stop_real:month']}</field>
+    </record>
+
+
+    <!-- Filter for graph view -->
+    <record id="prestation_filter_by_partner" model="ir.filters">
+        <field name="name">Heures prestations par prestataire</field>
+        <field name="model_id">activity.escale.service.line</field>
+        <!--<field name="user_id" eval="False"/>-->
+        <field name="is_default" eval="True"/>
+        <field name="context">{
+            'pivot_measures': ['duration_hours_real'],
+            'pivot_column_groupby': ['date_stop_real:month'],
+            'pivot_row_groupby': ['partner_id'],
+            'graph_measures': ['duration_hours_preview'],
+            'graph_column_groupby': ['date_stop_real:month'],
+            'graph_row_groupby': ['partner_id']
+        }</field>
+        <field name="action_id" ref="ss_ops_activity_action_analysis"/>
+    </record>
+
+
+
+</odoo>

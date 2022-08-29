@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record forcecreate="True" id="prestataire_1" model="prestataire.type">
+            <field name="name">Hotel</field>
+            <field name="code">HT</field>
+        </record>
+        <record forcecreate="True" id="prestataire_2" model="prestataire.type">
+            <field name="name">Transport</field>
+            <field name="code">TR</field>
+        </record>
+    </data>
+</odoo>

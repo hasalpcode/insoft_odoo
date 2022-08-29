@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+        <report
+            id="ops_touchee"
+            model="ops.vol"
+            string="Check liste Touchée"
+            report_type="qweb-pdf"
+            name="ss_ops_activity_scale.report_touchee"
+            file="ss_ops_activity_scale.report_touchee"
+            menu="False"
+        />
+
+        <template id="report_touchee_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>
+                       CHECK LISTE TOUCHEE
+                    </h2>
+                    <div>
+                        <strong><span>Vol  : </span></strong><span t-field="o.name"/> <br/>
+                        <strong><span>Date : </span></strong><span t-field="o.date_vol"/> <br/>
+                        <strong><span>Agent: </span></strong><span t-field="o.user_id"/>
+                    </div>
+                </div>
+
+                <table class="table table-sm o_main_table" name="invoice_line_table">
+                        <thead>
+                            <tr>
+                                <th name="th_description" class="text-left" style="border-right:1px solid grey;"><span>Services</span></th>
+                                <th name="th_source" class="text-center" style="border-right:1px solid grey;width:90px"><span>Durée</span></th>
+                                <th name="th_quantity" class="text-center" style="border-right:1px solid grey"><span>Date de début prévue</span></th>
+                                 <th name="th_description" class="text-center" style="border-right:1px solid grey"><span>Date de début réelle</span></th>
+                                <th name="th_source" class="text-center" style="border-right:1px solid grey"><span>Date de fin</span></th>
+                                <th name="th_quantity" class="text-left"><span>Observations</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.checklist_ids" t-as="line">
+                                <t t-if="not line.display_type">
+                                    <td><span t-field="line.service_id.name" style="padding-left:5px"/></td>
+                                    <td class="text-right"><span t-field="line.date_start_text"/></td>
+                                    <td class="text-right"><span t-field="line.date_start_preview"/></td>
+                                    <td class="text-right"><span t-field="line.date_start_real"/></td>
+                                    <td class="text-right"><span t-field="line.date_stop_real"/></td>
+                                    <td class="text-right"><span t-field="line.comment"/></td>
+                                </t>
+                                <t t-if="line.display_type == 'line_section'">
+                                <td name="td_section_line" colspan="99">
+                                    <span t-field="line.name" style="font-weight:bold"/>
+                                </td>
+                            </t>
+                            </tr>
+
+                        </tbody>
+                    </table>
+            </t>
+        </template>
+
+
+        <template id="report_touchee">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="ss_ops_activity_scale.report_touchee_document" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>
